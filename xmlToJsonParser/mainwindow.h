@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QXmlStreamReader>
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +28,10 @@ private:
     QComboBox *choseDirectionCombo;
 
     QPushButton *translateButton;
+
+    QXmlStreamReader *xmlReader;
+
+    //QStringList *xmlInputList;
 
 
 public:

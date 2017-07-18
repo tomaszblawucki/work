@@ -1,14 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-07-14T13:54:16
+# Project created by QtCreator 2017-07-17T09:10:57
 #
 #-------------------------------------------------
 
-QT       += core gui xml
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = xmlToJsonParser
+TARGET = CustomLayout
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -26,13 +26,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    translator.cpp \
-    treecontainer.cpp
+    mylayout.cpp
 
 HEADERS += \
         mainwindow.h \
-    translator.h \
-    treenode.h
+    mylayout.h
 
 FORMS += \
         mainwindow.ui
