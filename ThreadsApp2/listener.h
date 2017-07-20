@@ -12,7 +12,7 @@ class Listener : public QObject
 public:
     explicit Listener(QObject *parent = nullptr);
     double progress;
-    void getProgress(){return(progress/100);}
+    double getProgress(){return(progress/100);}
 signals:
     void progressChanged();
 public slots:

@@ -5,9 +5,8 @@ import QtQuick.Controls 1.4
 Window {
     id: root
     visible: true
-    //width: myProgressBar.width
     height: myProgressBar.height
-    title: qsTr("Hello World")
+    title: qsTr("Threading")
 
     width: (myProgressBar.visible == true) ? myProgressBar.width : result.width
 
