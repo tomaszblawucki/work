@@ -23,8 +23,9 @@ void Worker::run()
         //qDebug()<<std::distance(begin, i);
         if(std::distance(begin, i)%(std::distance(begin, end)/1000 +1) == 0){
             //qDebug() << (100*(double(std::distance(begin, i))/std::distance(begin, end)));
-            emit progressed(id, 100*(double(std::distance(begin, i))/std::distance(begin, end)));
 
+            emit progressed(id, 100*(double(std::distance(begin, i))/std::distance(begin, end)));
+            usleep(1000);
         }
 
     }

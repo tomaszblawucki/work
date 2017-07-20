@@ -5,30 +5,24 @@ import QtQuick.Controls 1.4
 Window {
     id: root
     visible: true
-    height: myProgressBar.height
+    height: myProgressBar.height + 10
     title: qsTr("Threading")
-
-    width: (myProgressBar.visible == true) ? myProgressBar.width : result.width
+    width: (myProgressBar.visible == true) ? myProgressBar.width+10 : result.width+10
 
     Column
     {
+        padding: 5
         ProgressBar{
             id: myProgressBar
             value: myProgress.progress
             visible: (myProgress.progress <= 0.998) ? true : false
             //text: myProgress.getProgress;
-            Component.onCompleted: {
-                visible: false;
-                console.log("Nested Completed Running!")
-            }
-
             //onDataChanged: value  = backend.progress
         }
         Text{
             id: result
-            text: myProgress.name
-            visible: (myProgress.progress <= 0.9999) ? false : true
-
+            text: myProgress.result
+            visible: (myProgress.progress <= 0.99) ? false : true
         }
 
     }

@@ -32,9 +32,9 @@ void Listener::listen(QString id, double prog)
     QMap<QString, double>::iterator i;
     for (i = threadsProgress.begin(); i != threadsProgress.end(); ++i)
         sum+=i.value();
-
-    qDebug() << "average progress:" <<sum/threadCount;
-
+    progress = sum/threadCount;
+    emit this->progressChanged();
+    //qDebug() << "average progress:" <<sum/threadCount;
 }
 
 void Listener::calculationFinish(QString id , double partial)
@@ -46,5 +46,6 @@ void Listener::calculationFinish(QString id , double partial)
      if(this->resultReady())
      {
          qDebug()<<"Final result: "<<QString::number(result);
+         emit resultChanged();
      }
 }

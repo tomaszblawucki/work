@@ -9,19 +9,15 @@
 #include <unistd.h>
 #include "listener.h"
 #include <QVector>
+#include <QQmlContext>
 
-
-const int THREAD_COUNT = 4;
-const int VECTOR_SIZE = 1000000;
+const int THREAD_COUNT = 2;
+const int VECTOR_SIZE = 100000000;
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
 
+    QGuiApplication app(argc, argv);
 
 //QThread methodology
 //    QThread *thread =new QThread;
@@ -38,7 +34,7 @@ int main(int argc, char *argv[])
     QVector<int> resource;
     for(int i=0; i<VECTOR_SIZE; i++)
     {
-        resource.append(1);
+        resource.append(i);
     }
 
 
@@ -47,6 +43,15 @@ int main(int argc, char *argv[])
     QList<Worker*> threadList;
 
     Listener *listener = new Listener(THREAD_COUNT);
+
+
+
+    QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("myProgress", listener);
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    if (engine.rootObjects().isEmpty())
+        return -1;
+
 
     for(int i = 0; i<THREAD_COUNT; i++)
     {
@@ -83,14 +88,13 @@ int main(int argc, char *argv[])
     }
 
 
-    foreach (Worker *w, threadList) {
-        while(!w->ready)
-        {
+//    foreach (Worker *w, threadList) {
+//        while(!w->ready)
+//        {
 
-        }
-       qDebug() << "PARTIAL SUM: " << w->getSum();
-    }
-
+//        }
+//       qDebug() << "PARTIAL SUM: " << w->getSum();
+//    }
 
 
 
