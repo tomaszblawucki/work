@@ -11,8 +11,8 @@
 #include <QVector>
 
 
-const int THREAD_COUNT = 2;
-const int VECTOR_SIZE = 4;
+const int THREAD_COUNT = 4;
+const int VECTOR_SIZE = 1000000;
 
 int main(int argc, char *argv[])
 {
@@ -38,13 +38,15 @@ int main(int argc, char *argv[])
     QVector<int> resource;
     for(int i=0; i<VECTOR_SIZE; i++)
     {
-        resource.append(i);
+        resource.append(1);
     }
 
 
     //Worker work( resource.begin()+(0*(THREAD_COUNT/VECTOR_SIZE)),resource.begin()+((0+1)*(THREAD_COUNT/VECTOR_SIZE)),resource);
 
     QList<Worker*> threadList;
+
+    Listener *listener = new Listener(THREAD_COUNT);
 
     for(int i = 0; i<THREAD_COUNT; i++)
     {
@@ -73,6 +75,10 @@ int main(int argc, char *argv[])
 
 
     foreach (Worker *w, threadList) {
+       QObject::connect(w, SIGNAL(progressed(QString, double)), listener, SLOT(listen(QString, double)));
+       QObject::connect(w, SIGNAL(fin(QString, double)), listener, SLOT(calculationFinish(QString,double)));
+
+       listener->addThread(w->getId());
        w->start();
     }
 

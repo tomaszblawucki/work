@@ -17,12 +17,15 @@ public:
     void run();
     long int getSum();
     bool ready = false;
+    QString getId();
+
 public slots:
     //int process();
 
 signals:
     //void finished();
-    void progressed(int);
+    void progressed(QString, double);
+    void fin(QString, double);
 
 private:
     long int partial_sum;
@@ -30,6 +33,7 @@ private:
     QVector<int>::iterator begin;
     QVector<int>::iterator end;
     QVector<int> *vector;
+    QString id;
 
 };
 
