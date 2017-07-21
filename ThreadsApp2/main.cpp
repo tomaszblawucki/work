@@ -11,8 +11,8 @@
 #include <QVector>
 #include <QQmlContext>
 
-const int THREAD_COUNT = 2;
-const int VECTOR_SIZE = 100000000;
+const int THREAD_COUNT = 1;
+const int VECTOR_SIZE = 1000;
 
 int main(int argc, char *argv[])
 {
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     QVector<int> resource;
     for(int i=0; i<VECTOR_SIZE; i++)
     {
-        resource.append(i);
+        resource.append(i*24);
     }
 
 
@@ -74,8 +74,6 @@ int main(int argc, char *argv[])
             qDebug()<<"B ADDRESS:"<<b<<"E ADDRESS: "<<e<<"T/V"<<VECTOR_SIZE/THREAD_COUNT ;
             threadList.append(new Worker( b, e, resource));
         }
-
-
     }
 
 
@@ -86,30 +84,6 @@ int main(int argc, char *argv[])
        listener->addThread(w->getId());
        w->start();
     }
-
-
-//    foreach (Worker *w, threadList) {
-//        while(!w->ready)
-//        {
-
-//        }
-//       qDebug() << "PARTIAL SUM: " << w->getSum();
-//    }
-
-
-
-//    Worker *worker = new Worker;
-//    Listener *listener = new Listener;
-//    QFutureWatcher<int> watcher;
-
-//    QObject::connect(&watcher, SIGNAL(finished()), worker, SLOT(deleteLater()));
-//    QObject::connect(&watcher, SIGNAL(finished()), worker, SLOT(deleteLater()));
-//    //QObject::connect(&watcher, SIGNAL(progressValueChanged(int)), listener, SLOT(listen(int)) );
-//    QObject::connect(worker, SIGNAL(progressed(int)), listener, SLOT(listen(int)) );
-
-//    //QFuture<int> handle = QtConcurrent::run(worker, &Worker::process);
-//    QFuture<int> handle = QtConcurrent::filteredReduced(&resource, &Worker::filter, reduce);
-//    watcher.setFuture(handle);
 
     return app.exec();
 }
