@@ -1,4 +1,5 @@
 #include "filemanager.h"
+#include <iostream>
 #include <vector>
 
 FileManager::FileManager(std::string p)
@@ -8,9 +9,9 @@ FileManager::FileManager(std::string p)
 
 std::vector<std::string> FileManager::readAll()
 {
-    //std::lock_guard<std::mutex> fileGuard(this->fileMutex);
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     std::vector<std::string> content;
-    file.open(path,std::ios_base::in);
+    file.open(path, std::ios_base::in);
     if(file.is_open())
     {
         std::string s;
@@ -19,13 +20,13 @@ std::vector<std::string> FileManager::readAll()
         file.close();
         return content;
     }
-    std::cout<<"SPECIFIED FILE NOT FOUND"<<endl;
-    return 0;
+    std::cout<<"SPECIFIED FILE NOT FOUND"<<std::endl;
+    return content;
 }
 
 std::string FileManager::getLastLine()
 {
-
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::in);
     if(file.is_open())
     {
@@ -51,7 +52,7 @@ std::string FileManager::getLastLine()
         }
         std::string line;
         std::getline(file, line);
-        cout<<"Last line readen: "<<line<<endl;
+        //std::cout<<"Last line readen: "<<line<<std::endl;
 
         file.close();
         return line;
@@ -62,10 +63,39 @@ std::string FileManager::getLastLine()
 
 std::string FileManager::getFirstLine()
 {
-    return 0;
+    file.open(path, std::ios_base::in);
+    if(file.is_open())
+    {
+       //std::cout<<"file is open"<<std::endl;
+       std::string line;
+       std::getline(file, line);
+       file.close();
+       return line;
+    }
+    std::cout<<"file not exist"<<std::endl;
+    return "";
 }
 
-std::string FileManager::appendLine(std::string line)
+bool FileManager::appendLine(std::string line)
 {
-    return 0;
+
+    file.open(path, std::ios_base::out|std::ios_base::app);
+    if(file.is_open())
+    {
+       file << std::endl << line;
+       file.flush();
+       file.close();
+       return true;
+    }
+    return false;
+}
+
+void FileManager::setPath(const char* path)
+{
+    this->path = std::string(path);
+}
+
+void FileManager::setPath(std::string p)
+{
+    this->path = p;
 }

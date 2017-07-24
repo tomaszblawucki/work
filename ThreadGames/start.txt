@@ -1,3 +1,16 @@
-some
-text outta 
-here
+7, 14, 2, 13, 5, 4
+change
+find
+change
+sort
+find
+sort
+sort
+find
+sort
+sort
+sort
+sort
+find
+change
+sort

@@ -2,6 +2,9 @@
 #include <thread>
 #include <iostream>
 #include <mutex>
+#include "filemanager.h"
+#include "gamemaster.h"
+#include "sorter.h"
 
 using namespace std;
 
@@ -21,12 +24,20 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
 
+    std::string path = "C:/Users/int_tobl/Desktop/QtProjects/ThreadGames/start.txt";
 
-//    thread t1(function1);
-//    thread t2(function1);
+    GameMaster gm("C:/Users/int_tobl/Desktop/QtProjects/ThreadGames/start.txt");
+    std::cout<<gm.getCommand();
+
+    Sorter srt("C:/Users/int_tobl/Desktop/QtProjects/ThreadGames/start.txt");
+
+    thread t1(gm);
+    thread t2(srt);
 
 
-//    t1.join();
+
+
+    t1.join();
 //    t2.join();
 
 
