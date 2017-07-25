@@ -1,6 +1,7 @@
 #include "gamemaster.h"
 #include <random>
 #include <iostream>
+#include <mutex>
 #include <unistd.h>
 
 GameMaster::GameMaster(char* path):
@@ -12,21 +13,26 @@ void GameMaster::operator ()()
 
     std::cout<<"Master thread is runing"<<std::endl;
     while(true){
-        this->seq = fman->getLastLine();
-        std::cout<<"MASTER Last line: "<<seq<<std::endl;
+        if(masterToken == true){
+            this->seq = fman->getLastLine();
+            std::cout<<"MASTER Last line: "<<seq<<"Master Token:"<<masterToken <<std::endl;
 
-        if( (seq.length()==1) && ('1'<=seq[0]) && ('9' >= seq[0]))
-        {
-            std::cout<<"MASTER SPECIAL STRING"<<std::endl;
-            std::string output = std::string("change ") + seq[0];
-            fman->appendLine(output);
+            if( (seq.length()==1) && ('1'<=seq[0]) && ('9' >= seq[0]))
+            {
+                std::cout<<"MASTER SPECIAL STRING"<<std::endl;
+                std::string output = std::string("change ") + seq[0];
+                fman->appendLine(output);
+            }
+            else if(fman->getLastLine() == fman->getLastNumbers() || fman->getLastLine() == "0")
+            {
+                std::cout<<"going crazy";
+                fman->appendLine(getCommand());
+            }
+            finderToken = true;
+            changerToken = true;
+            sorterToken = true;
+            masterToken = false;
         }
-        else if(fman->getLastLine() == fman->getLastNumbers() || fman->getLastLine() == "0")
-        {
-            std::cout<<"going crazy";
-            fman->appendLine(getCommand());
-        }
-        usleep(10000);
     }
 }
 std::string GameMaster::getCommand()

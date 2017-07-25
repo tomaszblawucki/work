@@ -2,7 +2,11 @@
 #define SORTER_H
 #include "threadplayer.h"
 #include <vector>
+#include <condition_variable>
 
+extern bool masterToken;
+extern bool sorterToken;
+extern std::condition_variable slaveCondition;
 
 class Sorter: public ThreadPlayer
 {

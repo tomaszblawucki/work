@@ -12,9 +12,13 @@
 
 using namespace std;
 
-mutex consoleMutex;
-bool masterToken = true;
-std::condition_variable condition;
+extern mutex _mutex;
+extern bool masterToken = true;
+extern bool finderToken = false;
+extern bool changerToken = false;
+extern bool sorterToken = false;
+extern std::condition_variable masterCondition;
+extern std::condition_variable slaveCondition;
 
 
 int main(int argc, char *argv[])
@@ -32,16 +36,15 @@ int main(int argc, char *argv[])
     Changer c(path);
 
     thread master(gm);
-    thread sorter(s);
     thread finder(f);
+    thread sorter(s);
     thread changer(c);
     usleep(100);
 
     master.join();
-    sorter.join();
     finder.join();
     changer.join();
-
+    sorter.join();
     /*
 
     GameMaster gm("C:/Users/int_tobl/Desktop/QtProjects/ThreadGames/start.txt");

@@ -1,6 +1,11 @@
 #ifndef CHANGER_H
 #define CHANGER_H
 #include "threadplayer.h"
+#include <condition_variable>
+
+extern bool masterToken;
+extern bool changerToken;
+extern std::condition_variable slaveCondition;
 
 class Changer: public ThreadPlayer
 {
