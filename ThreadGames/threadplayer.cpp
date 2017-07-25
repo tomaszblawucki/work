@@ -13,7 +13,6 @@ std::string ThreadPlayer::fetchInstruction()
 
 int ThreadPlayer::randomNumber(int min, int max)
 {
-    srand(time(NULL));
     //std::cout << rand()%(max-min)+min;
     return rand()%(max+1-min)+min;
 }

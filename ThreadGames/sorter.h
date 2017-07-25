@@ -3,9 +3,10 @@
 #include "threadplayer.h"
 #include <vector>
 
+
 class Sorter: public ThreadPlayer
 {
-    std::string algorithm[2] = {"sort", "partial_sort"};
+    std::string sortAlgorithm[2] = {"sort", "partial_sort"};
     std::vector<int> numbers;
     int n;
 public:

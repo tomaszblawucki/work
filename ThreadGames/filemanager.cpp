@@ -1,6 +1,10 @@
 #include "filemanager.h"
 #include <iostream>
 #include <vector>
+#include <ctype.h>
+#include <stdlib.h>
+#include <locale>
+#include <sstream>
 
 FileManager::FileManager(std::string p)
 {
@@ -24,9 +28,27 @@ std::vector<std::string> FileManager::readAll()
     return content;
 }
 
+std::vector<int> FileManager::numbersTokenizer()
+{
+    std::vector<int> numbers;
+    std::string num;
+    std::stringstream ss(this->getLastNumbers());
+
+    while(std::getline(ss, num, ','))
+    {
+        numbers.push_back(atoi(num.c_str()));
+    }
+
+//    for(int i= 0; i< numbers.size(); i++)
+//    {
+//        std::cout<<numbers[i]<<std::endl;
+//    }
+    return numbers;
+}
+
 std::string FileManager::getLastLine()
 {
-    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
+
     file.open(path, std::ios_base::in);
     if(file.is_open())
     {
@@ -61,6 +83,30 @@ std::string FileManager::getLastLine()
     return 0;
 }
 
+std::string FileManager::getLastNumbers()
+{
+    file.open(path, std::ios_base::in);
+    if(file.is_open())
+    {
+       //std::cout<<"file is open"<<std::endl;
+       std::string numbers = "Not found";
+       std::string line;
+       std::locale loc;
+       while(std::getline(file, line))
+       {
+           if(std::isdigit(line[0], loc) && line.size()>2)
+           {
+               numbers = line;
+           }
+       }
+       file.close();
+       //std::cout<<"line with numbers: "<<numbers<<std::endl;
+       return numbers;
+    }
+    std::cout<<"file not exist"<<std::endl;
+    return "";
+}
+
 std::string FileManager::getFirstLine()
 {
     file.open(path, std::ios_base::in);
@@ -83,6 +129,27 @@ bool FileManager::appendLine(std::string line)
     if(file.is_open())
     {
        file << std::endl << line;
+       file.flush();
+       file.close();
+       return true;
+    }
+    return false;
+}
+
+bool FileManager::appendLine(std::vector<int> numbers)
+{
+
+    file.open(path, std::ios_base::out|std::ios_base::app);
+    if(file.is_open())
+    {
+       std::string output = "";
+       for(int i =0; i<(numbers.size()-1); i++)
+       {
+           output += std::to_string(numbers[i]) + ", ";
+       }
+       output+=std::to_string(numbers[numbers.size()-1]);
+       //std::cout<<"output: "<<output<<std::endl;
+       file << std::endl <<output;
        file.flush();
        file.close();
        return true;
