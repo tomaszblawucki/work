@@ -11,6 +11,7 @@ extern bool masterToken;
 extern bool finderToken ;
 extern bool changerToken ;
 extern bool sorterToken ;
+extern bool gameOn;
 extern std::mutex _mutex;
 
 class GameMaster: public ThreadPlayer

@@ -3,10 +3,16 @@
 #include "threadplayer.h"
 #include <vector>
 #include <condition_variable>
+#include <mutex>
 
-extern bool masterToken;
-extern bool sorterToken;
+extern std::condition_variable masterCondition;
 extern std::condition_variable slaveCondition;
+extern bool masterToken;
+extern bool finderToken ;
+extern bool changerToken ;
+extern bool sorterToken ;
+extern bool gameOn;
+extern std::mutex _mutex;
 
 class Sorter: public ThreadPlayer
 {

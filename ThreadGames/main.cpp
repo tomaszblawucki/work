@@ -12,13 +12,14 @@
 
 using namespace std;
 
-extern mutex _mutex;
-extern bool masterToken = true;
-extern bool finderToken = false;
-extern bool changerToken = false;
-extern bool sorterToken = false;
-extern std::condition_variable masterCondition;
-extern std::condition_variable slaveCondition;
+ mutex _mutex;
+ bool masterToken = true;
+ bool finderToken = false;
+ bool changerToken = false;
+ bool sorterToken = false;
+ bool gameOn = true;
+ std::condition_variable masterCondition;
+ std::condition_variable slaveCondition;
 
 
 int main(int argc, char *argv[])

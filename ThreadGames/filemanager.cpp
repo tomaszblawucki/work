@@ -13,8 +13,9 @@ FileManager::FileManager(std::string p)
 
 std::vector<std::string> FileManager::readAll()
 {
-    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
+
     std::vector<std::string> content;
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::in);
     if(file.is_open())
     {
@@ -48,7 +49,7 @@ std::vector<int> FileManager::numbersTokenizer()
 
 std::string FileManager::getLastLine()
 {
-
+ std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::in);
     if(file.is_open())
     {
@@ -85,6 +86,7 @@ std::string FileManager::getLastLine()
 
 std::string FileManager::getLastNumbers()
 {
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::in);
     if(file.is_open())
     {
@@ -109,6 +111,7 @@ std::string FileManager::getLastNumbers()
 
 std::string FileManager::getFirstLine()
 {
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::in);
     if(file.is_open())
     {
@@ -124,7 +127,7 @@ std::string FileManager::getFirstLine()
 
 bool FileManager::appendLine(std::string line)
 {
-
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::out|std::ios_base::app);
     if(file.is_open())
     {
@@ -138,7 +141,7 @@ bool FileManager::appendLine(std::string line)
 
 bool FileManager::appendLine(std::vector<int> numbers)
 {
-
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
     file.open(path, std::ios_base::out|std::ios_base::app);
     if(file.is_open())
     {
@@ -155,6 +158,32 @@ bool FileManager::appendLine(std::vector<int> numbers)
        return true;
     }
     return false;
+}
+
+bool FileManager::isFirstLine()
+{
+    int i = 0;
+    std::lock_guard<std::mutex> fileGuard(this->fileMutex);
+    file.open(path, std::ios_base::in);
+    if(file.is_open())
+    {
+       std::string line;
+       std::locale loc;
+       while(std::getline(file, line))
+       {
+           if(std::isdigit(line[0], loc) && line.size()>2)
+           {
+               i++;
+           }
+       }
+       file.close();
+       if(i<=2){
+       return true;
+       }
+       return false;
+    }
+    return false;
+
 }
 
 void FileManager::setPath(const char* path)

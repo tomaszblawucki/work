@@ -3,6 +3,7 @@
 #include <fstream>
 #include <mutex>
 #include <vector>
+#include <chrono>
 
 class FileManager
 {
@@ -20,6 +21,7 @@ public:
     std::string getLastNumbers();
     bool appendLine(std::string);
     bool appendLine(std::vector<int>);
+    bool isFirstLine();
     void setPath(const char*);
     void setPath(std::string);
 };

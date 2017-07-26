@@ -9,7 +9,14 @@ void Sorter::operator()()
 {
     srand(time(NULL));
 
-    while(true){
+    while(gameOn){
+//        std::unique_lock<std::mutex> lck(_mutex);
+//        while(!sorterToken)
+//        {
+//            slaveCondition.wait(lck);
+//        }
+
+
         if(sorterToken){
             std::cout<<"SORTER"<<std::endl;
             std::string command = fman->getLastLine();
@@ -22,12 +29,12 @@ void Sorter::operator()()
 
                 if(operation == sortAlgorithm[0])//sort
                 {
-                    std::cout<<"Full sort"<<std::endl;
+                    //std::cout<<"Full sort"<<std::endl;
                     std::sort(numbers.begin(), numbers.end());
                 }
                 else//partial sort
                 {
-                    std::cout<<"Partial sort"<<std::endl;
+                    //std::cout<<"Partial sort"<<std::endl;
                     int n = randomNumber(0, numbers.size()-1);
                     std::cout<<"N = "<<n<<std::endl;
                     std::partial_sort(numbers.begin(),numbers.begin() + n, numbers.end());
@@ -40,11 +47,15 @@ void Sorter::operator()()
                 }
                 output += std::to_string(numbers[numbers.size()-1]);
 
+                std::cout<<"SORTER TRY APPEND";
                 fman->appendLine(output);
+                std::cout<<"SORTER APPENDED"<<std::endl;
 
+                masterToken = true;
             }
             sorterToken = false;
-            masterToken = true;
+
+            //usleep(100);
         }
     }
 }

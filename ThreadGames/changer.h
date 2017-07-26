@@ -2,10 +2,16 @@
 #define CHANGER_H
 #include "threadplayer.h"
 #include <condition_variable>
+#include <mutex>
 
-extern bool masterToken;
-extern bool changerToken;
+extern std::condition_variable masterCondition;
 extern std::condition_variable slaveCondition;
+extern bool masterToken;
+extern bool gameOn;
+extern bool finderToken ;
+extern bool changerToken ;
+extern bool sorterToken ;
+extern std::mutex _mutex;
 
 class Changer: public ThreadPlayer
 {

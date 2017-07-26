@@ -9,12 +9,18 @@ void Finder::operator()()
     srand(time(NULL));
 
 
-    while(true){
+    while(gameOn){
+//        std::unique_lock<std::mutex> lck(_mutex);
+//        while(!masterToken)
+//        {
+//            slaveCondition.wait(lck);
+//        }
         if(finderToken){
             std::cout<<"FINDER"<<std::endl;
             std::string command = fman->getLastLine();
             if(command == "find"){
                 int num  = randomNumber(0, 5);
+                std::cout<<"RANDOM NUMBER FROM FINDER: "<<num<<std::endl;
                 std::vector<int> numbers = fman->numbersTokenizer();
                 std::vector<int>::iterator it;
                 it = std::find(numbers.begin(), numbers.end(), num);
@@ -27,13 +33,17 @@ void Finder::operator()()
                 }
                 else
                 {
-                    std::cout<<"Appending to file number: "<<num<<std::endl;
+                    //std::cout<<"Appending to file number: "<<num<<std::endl;
                     std::string output = std::to_string(num);
+                    std::cout<<"FINDER TRY APPEND";
                     fman->appendLine(output);
+                    std::cout<<"APPENDED TRY APPEND"<<std::endl;
                 }
+                masterToken = true;
             }
             finderToken = false;
-            masterToken = true;
+
+           // usleep(100);
         }
     }
 }

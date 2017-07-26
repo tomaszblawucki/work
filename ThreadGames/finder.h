@@ -4,11 +4,14 @@
 #include <mutex>
 #include <condition_variable>
 
-extern bool masterToken;
-extern bool finderToken;
-extern std::mutex _mutex;
-extern std::condition_variable slaveCondition;
 extern std::condition_variable masterCondition;
+extern std::condition_variable slaveCondition;
+extern bool masterToken;
+extern bool finderToken ;
+extern bool changerToken ;
+extern bool sorterToken ;
+extern bool gameOn;
+extern std::mutex _mutex;
 
 class Finder: public ThreadPlayer
 {
